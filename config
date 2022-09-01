@@ -1,0 +1,6 @@
+https://github.com/BlueLucky/LeetCodeAlgorithm.git
+
+git remote set-url origin https://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@github.com/BlueLucky/LeetCodeAlgorithm.git
+
+github token: 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
+git merge main --allow-unrelated-histories
