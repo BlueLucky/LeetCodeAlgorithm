@@ -288,8 +288,88 @@ public class TreeAlgorithm {
      * @return
      */
     public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null){
+            return false;
+        }
+        targetSum -= root.val;
 
-        return false;
+        if(root.left==null&&root.right==null){
+            return targetSum==0;
+        }else{
+            return hasPathSum(root.left,targetSum)||hasPathSum(root.right,targetSum);
+        }
+    }
+
+    /**
+     * 二叉搜索树中的搜索
+     *
+     * 给定二叉搜索树（BST）的根节点 root 和一个整数值 val。
+     *你需要在 BST 中找到节点值等于 val 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 null 。
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root==null){
+            return null;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            if(node!=null){
+                if(node.val==val){
+                    return node;
+                }
+                if(node.left!=null){
+                    queue.offer(node.left);
+                }
+                if(node.right!=null){
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 二叉搜索树中的插入操作
+     *
+     * 给定二叉搜索树（BST）的根节点root和要插入树中的值value，将值插入二叉搜索树。
+     * 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。
+     *
+     * 注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root==null){
+            return new TreeNode(val);
+        }
+        inIntoBST(root,val);
+        return root;
+    }
+
+    private void inIntoBST(TreeNode node,int val){
+        if(node!=null){
+            // 找左子树
+            if(val<node.val){
+                if(node.left==null){
+                    node.left = new TreeNode(val);
+                }else {
+                    inIntoBST(node.left,val);
+                }
+            }else{
+                if (node.right==null){
+                    node.right = new TreeNode(val);
+                }else{
+                    inIntoBST(node.right,val);
+                }
+            }
+        }
     }
 
     /**
@@ -301,16 +381,20 @@ public class TreeAlgorithm {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while (!queue.isEmpty()){
-            TreeNode node = queue.poll();
-            if(node!=null){
-                System.out.println("node:"+node.val);
-                if(node.left!=null){
-                    queue.offer(node.left);
-                }
-                if(node.right!=null){
-                    queue.offer(node.right);
+            int size = queue.size();
+            for (int i=0;i<size;i++){
+                TreeNode node = queue.poll();
+                if(node!=null){
+                    System.out.print(node.val+" ");
+                    if(node.left!=null){
+                        queue.offer(node.left);
+                    }
+                    if(node.right!=null){
+                        queue.offer(node.right);
+                    }
                 }
             }
+            System.out.println();
         }
     }
 

@@ -8,6 +8,22 @@ import org.junit.Test;
 public class LinkUnitTest {
 
     @Test
+    public void testAddTowNumList(){
+        LinkAlgorithm linkAlgorithm = new LinkAlgorithm();
+        ListNode testNode1 = linkAlgorithm.addTwoNumbers(linkAlgorithm.createListNode(new int[]{2,4,3})
+                ,linkAlgorithm.createListNode(new int[]{5,6,4}));
+        linkAlgorithm.printLink(testNode1);
+
+        ListNode testNode2 = linkAlgorithm.addTwoNumbers(linkAlgorithm.createListNode(new int[]{9,9,9,9,9,9,9})
+                ,linkAlgorithm.createListNode(new int[]{9,9,9,9}));
+        linkAlgorithm.printLink(testNode2);
+
+        ListNode testNode3 = linkAlgorithm.addTwoNumbers(linkAlgorithm.createListNode(new int[]{})
+                ,linkAlgorithm.createListNode(new int[]{}));
+        linkAlgorithm.printLink(testNode3);
+    }
+
+    @Test
     public void deleteDuplicates(){
         LinkAlgorithm linkAlgorithm = new LinkAlgorithm();
         //[1,1,2]
