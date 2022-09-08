@@ -1,6 +1,8 @@
 package com.lucky.leecode.array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -429,17 +431,28 @@ public class ArrayAlgorithm {
         return max;
     }
 
-    private void printArray(int[] nums) {
+    public void printArray(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
             System.out.print(nums[i] + " ");
         }
+        System.out.println();
+    }
+
+    public void printArray(int[][] nums){
+        for (int i=0;i<nums.length;i++){
+            for(int j=0;j<nums[i].length;j++){
+                System.out.print(nums[i][j]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     /**
      * 重塑矩阵
      * 在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。
-     *给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。
-     *重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。
+     * 给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。
+     * 重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。
      * 如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。
      *
      * @param mat
@@ -448,23 +461,23 @@ public class ArrayAlgorithm {
      * @return
      */
     public int[][] matrixReshape(int[][] mat, int r, int c) {
-        if(mat==null){
+        if (mat == null) {
             return mat;
         }
-        int orgSize = mat.length*mat[0].length;
-        if(orgSize!=r*c){
+        int orgSize = mat.length * mat[0].length;
+        if (orgSize != r * c) {
             return mat;
         }
         int retR = 0;
         int retC = 0;
         int[][] result = new int[r][c];
-        for (int i=0;i<mat.length;i++){
-            for (int j=0;j<mat[i].length;j++){
-                if(retC==c-1){
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                if (retC == c - 1) {
                     result[retR][retC] = mat[i][j];
-                    retC=0;
+                    retC = 0;
                     retR++;
-                }else{
+                } else {
                     result[retR][retC++] = mat[i][j];
                 }
             }
@@ -481,20 +494,315 @@ public class ArrayAlgorithm {
     public void setZeroes(int[][] matrix) {
         List<Integer> row = new ArrayList<>();
         List<Integer> col = new ArrayList<>();
-        for (int i=0;i<matrix.length;i++){
-            for (int j=0;j<matrix[i].length;j++){
-                if(matrix[i][j]==0){
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 0) {
                     row.add(i);
                     col.add(j);
                 }
             }
         }
-        for (int i=0;i<matrix.length;i++){
-            for (int j=0;j<matrix[i].length;j++){
-                if(row.contains(i)||col.contains(j)){
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (row.contains(i) || col.contains(j)) {
                     matrix[i][j] = 0;
                 }
             }
         }
+    }
+
+    /**
+     * 多数元素
+     * <p>
+     * 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+     * 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+     * <p>
+     * 思路：
+     * 因为众数大于n/2，假如我们令众数为1，其他数为 -1，那么他们的和一定是正数，至少是1。
+     * 当我们不知道谁是众数的情况下，我们可以令第一个元素为众数，若下一个元素是它则+1，下一个不是则减1，若减到0，
+     * 下一个不是它，则令下一个元素是众数，下一个是它则自增。
+     *
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int result = nums[0];
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (count == 0) {
+                result = nums[i];
+                ++count;
+            } else {
+                if (nums[i] == result) {
+                    ++count;
+                } else {
+                    --count;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 三数之和
+     * <p>
+     * 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，
+     * 同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
+     * <p>
+     * 你返回所有和为 0 且不重复的三元组。
+     * 注意：答案中不可以包含重复的三元组。
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        if (nums == null || nums.length < 3) {
+            return null;
+        }
+        List<List<Integer>> result = new ArrayList<>();
+        //排序
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                return result;
+            }
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int L = i + 1, R = nums.length - 1;
+            while (L < R) {
+                int sum = nums[L] + nums[i] + nums[R];
+                if (sum == 0) {
+                    List<Integer> item = new ArrayList<>();
+                    item.add(nums[L]);
+                    item.add(nums[i]);
+                    item.add(nums[R]);
+
+                    result.add(item);
+
+                    while (L < R && nums[L + 1] == nums[L]) ++L;
+                    while (L < R && nums[R - 1] == nums[R]) --R;
+                    ++L;
+                    --R;
+                } else if (sum < 0) {
+                    ++L;
+                } else {
+                    --R;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 寻找两个正序数组的中位数
+     * <p>
+     * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+     * 算法的时间复杂度应该为 O(log (m+n)) 。
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int mergerLength = nums1.length + nums2.length;
+        int[] result = new int[mergerLength];
+        int index = 0;
+        int firstIndex = 0;
+        int secondIndex = 0;
+        while (firstIndex < nums1.length || secondIndex < nums2.length) {
+            if (firstIndex < nums1.length && secondIndex < nums2.length) {
+                if (nums1[firstIndex] < nums2[secondIndex]) {
+                    result[index++] = nums1[firstIndex++];
+                } else {
+                    result[index++] = nums2[secondIndex++];
+                }
+            } else if (firstIndex < nums1.length) {
+                result[index++] = nums1[firstIndex++];
+            } else if (secondIndex < nums2.length) {
+                result[index++] = nums2[secondIndex++];
+            }
+        }
+        int mid = mergerLength / 2;
+        if (mergerLength % 2 == 0) {
+            return (result[mid] + result[mid - 1]) / 2.0;
+        } else {
+            return result[mid];
+        }
+    }
+
+    /**
+     * 颜色分类
+     *
+     * 给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+     * 我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+     * 必须在不使用库的sort函数的情况下解决这个问题。
+     *
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        if(nums==null||nums.length==0){
+            return;
+        }
+        int left=0,right=nums.length-1;
+        while (left<nums.length-1&&nums[left]==0){
+            left++;
+        }
+        while (right>=0&&nums[right]==2){
+            right--;
+        }
+        int mid = left;
+        while (mid<=right){
+            if(nums[mid]==0){
+                swap(nums,mid++,left++);
+            }else if(nums[mid]==2){
+                swap(nums,mid,right--);
+            }else {
+                mid++;
+            }
+        }
+    }
+
+    /**
+     * 合并区间
+     *
+     * 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
+     * 请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
+     *
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        if(intervals==null||intervals.length==0){
+            return intervals;
+        }
+        Arrays.sort(intervals, (o1, o2) -> Integer.compare(o1[0],o2[0]));
+        int left = intervals[0][0],right = intervals[0][1];
+        List<int[]> result = new ArrayList<>();
+        for (int i=1;i<intervals.length;i++){
+            if(intervals[i][0]<=right){
+                right = Math.max(right,intervals[i][1]);
+            }else{
+                result.add(new int[]{left,right});
+                left = intervals[i][0];
+                right = intervals[i][1];
+            }
+        }
+        result.add(new int[]{left,right});
+
+        int[][] arrayInt = new int[result.size()][2];
+        for(int i=0;i<arrayInt.length;i++){
+            arrayInt[i] = result.get(i);
+        }
+        return arrayInt;
+    }
+
+    /**
+     * 螺旋矩阵 II
+     *
+     * 给你一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
+     *
+     * @param n
+     * @return
+     */
+    public int[][] generateMatrix(int n) {
+        int[][] result = new int[n][n];
+        int up=0,low=n-1;
+        int left=0,right=n-1;
+        int sum =1;
+        while (sum<=n*n){
+            if(up<=low){
+                for (int i=left;i<=right;i++){
+                    result[up][i] = sum++;
+                }
+                up++;
+            }
+            if(left<=right){
+                for (int i=up;i<=low;i++){
+                    result[i][right] = sum++;
+                }
+                right--;
+            }
+            if(up<=low){
+                for (int i=right;i>=left;i--){
+                    result[low][i] = sum++;
+                }
+                low--;
+            }
+            if(left<=right){
+                for (int i=low;i>=up;i--){
+                    result[i][left] = sum++;
+                }
+                left++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 搜索二维矩阵 II
+     *
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+     * 1. 每行的元素从左到右升序排列。
+     * 2. 每列的元素从上到下升序排列。
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix==null||matrix.length==0){
+            return false;
+        }
+        for (int i=0;i<matrix.length;i++){
+            if(binarySearch(matrix[i],target)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean binarySearch(int[] nums,int target){
+        int left = 0;
+        int right = nums.length-1;
+        int mid = (left+right)/2;
+        while (left<=right){
+            if(nums[mid]>target){
+                right = mid-1;
+                mid = (left+right)/2;
+            }else if(nums[mid]<target){
+                left = mid+1;
+                mid = (left+right)/2;
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 无重叠区间
+     *
+     * 给定一个区间的集合intervals，其中 intervals[i] = [starti, endi]。返回 需要移除区间的最小数量，使剩余区间互不重叠。
+     *
+     * @param intervals
+     * @return
+     */
+    public int eraseOverlapIntervals(int[][] intervals) {
+        //尾升序
+        Arrays.sort(intervals, (o1, o2) -> o1[1]-o2[1]);
+        int counts=1;
+        int endValue = intervals[0][1];
+        for (int[] interval:intervals){
+            int startValue = interval[0];
+            if(startValue>=endValue){
+                counts++;
+                endValue = interval[1];
+            }
+        }
+        return intervals.length-counts;
     }
 }
