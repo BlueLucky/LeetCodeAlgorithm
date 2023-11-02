@@ -2,11 +2,8 @@ package com.lucky.leecode.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -438,10 +435,10 @@ public class ArrayAlgorithm {
         System.out.println();
     }
 
-    public void printArray(int[][] nums){
-        for (int i=0;i<nums.length;i++){
-            for(int j=0;j<nums[i].length;j++){
-                System.out.print(nums[i][j]+" ");
+    public void printArray(int[][] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums[i].length; j++) {
+                System.out.print(nums[i][j] + " ");
             }
             System.out.println();
         }
@@ -636,7 +633,7 @@ public class ArrayAlgorithm {
 
     /**
      * 颜色分类
-     *
+     * <p>
      * 给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
      * 我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
      * 必须在不使用库的sort函数的情况下解决这个问题。
@@ -644,23 +641,23 @@ public class ArrayAlgorithm {
      * @param nums
      */
     public void sortColors(int[] nums) {
-        if(nums==null||nums.length==0){
+        if (nums == null || nums.length == 0) {
             return;
         }
-        int left=0,right=nums.length-1;
-        while (left<nums.length-1&&nums[left]==0){
+        int left = 0, right = nums.length - 1;
+        while (left < nums.length - 1 && nums[left] == 0) {
             left++;
         }
-        while (right>=0&&nums[right]==2){
+        while (right >= 0 && nums[right] == 2) {
             right--;
         }
         int mid = left;
-        while (mid<=right){
-            if(nums[mid]==0){
-                swap(nums,mid++,left++);
-            }else if(nums[mid]==2){
-                swap(nums,mid,right--);
-            }else {
+        while (mid <= right) {
+            if (nums[mid] == 0) {
+                swap(nums, mid++, left++);
+            } else if (nums[mid] == 2) {
+                swap(nums, mid, right--);
+            } else {
                 mid++;
             }
         }
@@ -668,7 +665,7 @@ public class ArrayAlgorithm {
 
     /**
      * 合并区间
-     *
+     * <p>
      * 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
      * 请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
      *
@@ -676,25 +673,25 @@ public class ArrayAlgorithm {
      * @return
      */
     public int[][] merge(int[][] intervals) {
-        if(intervals==null||intervals.length==0){
+        if (intervals == null || intervals.length == 0) {
             return intervals;
         }
-        Arrays.sort(intervals, (o1, o2) -> Integer.compare(o1[0],o2[0]));
-        int left = intervals[0][0],right = intervals[0][1];
+        Arrays.sort(intervals, (o1, o2) -> Integer.compare(o1[0], o2[0]));
+        int left = intervals[0][0], right = intervals[0][1];
         List<int[]> result = new ArrayList<>();
-        for (int i=1;i<intervals.length;i++){
-            if(intervals[i][0]<=right){
-                right = Math.max(right,intervals[i][1]);
-            }else{
-                result.add(new int[]{left,right});
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] <= right) {
+                right = Math.max(right, intervals[i][1]);
+            } else {
+                result.add(new int[]{left, right});
                 left = intervals[i][0];
                 right = intervals[i][1];
             }
         }
-        result.add(new int[]{left,right});
+        result.add(new int[]{left, right});
 
         int[][] arrayInt = new int[result.size()][2];
-        for(int i=0;i<arrayInt.length;i++){
+        for (int i = 0; i < arrayInt.length; i++) {
             arrayInt[i] = result.get(i);
         }
         return arrayInt;
@@ -702,7 +699,7 @@ public class ArrayAlgorithm {
 
     /**
      * 螺旋矩阵 II
-     *
+     * <p>
      * 给你一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
      *
      * @param n
@@ -710,30 +707,30 @@ public class ArrayAlgorithm {
      */
     public int[][] generateMatrix(int n) {
         int[][] result = new int[n][n];
-        int up=0,low=n-1;
-        int left=0,right=n-1;
-        int sum =1;
-        while (sum<=n*n){
-            if(up<=low){
-                for (int i=left;i<=right;i++){
+        int up = 0, low = n - 1;
+        int left = 0, right = n - 1;
+        int sum = 1;
+        while (sum <= n * n) {
+            if (up <= low) {
+                for (int i = left; i <= right; i++) {
                     result[up][i] = sum++;
                 }
                 up++;
             }
-            if(left<=right){
-                for (int i=up;i<=low;i++){
+            if (left <= right) {
+                for (int i = up; i <= low; i++) {
                     result[i][right] = sum++;
                 }
                 right--;
             }
-            if(up<=low){
-                for (int i=right;i>=left;i--){
+            if (up <= low) {
+                for (int i = right; i >= left; i--) {
                     result[low][i] = sum++;
                 }
                 low--;
             }
-            if(left<=right){
-                for (int i=low;i>=up;i--){
+            if (left <= right) {
+                for (int i = low; i >= up; i--) {
                     result[i][left] = sum++;
                 }
                 left++;
@@ -744,7 +741,7 @@ public class ArrayAlgorithm {
 
     /**
      * 搜索二维矩阵 II
-     *
+     * <p>
      * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
      * 1. 每行的元素从左到右升序排列。
      * 2. 每列的元素从上到下升序排列。
@@ -754,29 +751,29 @@ public class ArrayAlgorithm {
      * @return
      */
     public boolean searchMatrix(int[][] matrix, int target) {
-        if(matrix==null||matrix.length==0){
+        if (matrix == null || matrix.length == 0) {
             return false;
         }
-        for (int i=0;i<matrix.length;i++){
-            if(binarySearch(matrix[i],target)){
+        for (int i = 0; i < matrix.length; i++) {
+            if (binarySearch(matrix[i], target)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean binarySearch(int[] nums,int target){
+    private boolean binarySearch(int[] nums, int target) {
         int left = 0;
-        int right = nums.length-1;
-        int mid = (left+right)/2;
-        while (left<=right){
-            if(nums[mid]>target){
-                right = mid-1;
-                mid = (left+right)/2;
-            }else if(nums[mid]<target){
-                left = mid+1;
-                mid = (left+right)/2;
-            }else{
+        int right = nums.length - 1;
+        int mid = (left + right) / 2;
+        while (left <= right) {
+            if (nums[mid] > target) {
+                right = mid - 1;
+                mid = (left + right) / 2;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+                mid = (left + right) / 2;
+            } else {
                 return true;
             }
         }
@@ -785,7 +782,7 @@ public class ArrayAlgorithm {
 
     /**
      * 无重叠区间
-     *
+     * <p>
      * 给定一个区间的集合intervals，其中 intervals[i] = [starti, endi]。返回 需要移除区间的最小数量，使剩余区间互不重叠。
      *
      * @param intervals
@@ -793,16 +790,145 @@ public class ArrayAlgorithm {
      */
     public int eraseOverlapIntervals(int[][] intervals) {
         //尾升序
-        Arrays.sort(intervals, (o1, o2) -> o1[1]-o2[1]);
-        int counts=1;
+        Arrays.sort(intervals, (o1, o2) -> o1[1] - o2[1]);
+        int counts = 1;
         int endValue = intervals[0][1];
-        for (int[] interval:intervals){
+        for (int[] interval : intervals) {
             int startValue = interval[0];
-            if(startValue>=endValue){
+            if (startValue >= endValue) {
                 counts++;
                 endValue = interval[1];
             }
         }
-        return intervals.length-counts;
+        return intervals.length - counts;
+    }
+
+    /**
+     * 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+     * 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+     * 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+     *
+     * @param nums 原始数组
+     * @param val  需要删除的值
+     * @return 返回删除后的数组长度
+     */
+    public int removeElement(int[] nums, int val) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int tIndex = 0; //相同值的位置
+        int dIndex = 0; //不同值的位置
+        int size = nums.length;
+        while (dIndex < size) {
+            if (tIndex != dIndex) {
+                if (tIndex < dIndex) {
+                    if (nums[tIndex] == nums[dIndex]) {
+                        dIndex = dIndex + 1;
+                    } else {
+                        swap(nums, tIndex, dIndex);
+                        tIndex = tIndex + 1;
+                        dIndex = dIndex + 1;
+                    }
+                } else {
+                    dIndex = dIndex + 1;
+                }
+
+            } else {
+                if (nums[tIndex] != val) {
+                    tIndex = tIndex + 1;
+                }
+                if (nums[dIndex] == val) {
+                    dIndex = dIndex + 1;
+                }
+            }
+            System.out.println("tIndex:" + tIndex + ",dIndex:" + dIndex);
+        }
+        printArray(nums);
+        return tIndex;
+    }
+
+    /**
+     * 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
+     * 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+     *
+     * @param nums 原始数组
+     * @return 删除后的数组个数
+     */
+    public int removeDuplicates2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length <= 2) {
+            return nums.length;
+        }
+        int currentValue = nums[0];
+        int tCount = 1;
+        int moveIndex = -1;
+        for (int i = 1; i < nums.length; i++) {
+            if (currentValue == nums[i]) {
+                if (tCount < 2) {
+                    tCount++;
+                    if (moveIndex != -1) {
+                        nums[moveIndex] = nums[i];
+                        moveIndex++;
+                    }
+                } else {
+                    if (moveIndex == -1) {
+                        moveIndex = i;
+                    }
+                }
+            } else {
+                tCount = 1;
+                currentValue = nums[i];
+                if (moveIndex != -1) {
+                    nums[moveIndex] = nums[i];
+                    moveIndex++;
+                }
+            }
+        }
+        if (moveIndex == -1) {
+            moveIndex = nums.length;
+        }
+        printArray(nums);
+        return moveIndex;
+    }
+
+    /**
+     * 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+     *
+     * @param nums 原始数据
+     * @return 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
+     */
+    public boolean canJump(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        //不需要跳
+        if (nums.length == 1) {
+            return true;
+        }
+        List<Byte> status = new ArrayList<>();
+        for (int i = nums.length-1; i > 0; i--) {
+            //找到0的位置，判断这个位置是否能够跨越
+            if (nums[i] == 0) {
+                if (i != nums.length - 1) {
+                    status.add((byte) 0);
+                    for (int j = 0; j < i; j++) {
+                        int step = j + nums[j];
+                        if (step > i || i == nums.length - 1) {
+                            status.set(status.get(status.size() - 1), (byte) 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        boolean canJump = true;
+        for (int i = 0; i < status.size(); i++) {
+            if (status.get(i) == 0) {
+                canJump = false;
+            }
+        }
+        return canJump;
     }
 }

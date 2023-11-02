@@ -1,10 +1,7 @@
 package com.lucky.leecode;
 
 import com.lucky.leecode.array.ArrayAlgorithm;
-
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
-
 import java.util.List;
 
 public class ArrayUnitTest {
@@ -87,5 +84,63 @@ public class ArrayUnitTest {
 
         System.out.println("search:"+arrayAlgorithm.searchMatrix(new int[][]{{1,4,7,11,15},{2,5,8,12,19}
                 ,{3,6,9,16,22},{10,13,14,17,24},{18,21,23,26,30}},20));
+    }
+
+    @Test
+    public void testRemoveElement(){
+        ArrayAlgorithm arrayAlgorithm = new ArrayAlgorithm();
+        int test1[] = new int[]{3,2,2,3};
+        arrayAlgorithm.removeElement(test1,3);
+//        arrayAlgorithm.removeElement(test1,2);
+        int test2[] = new int[]{0,1,2,2,3,0,4,2};
+        arrayAlgorithm.removeElement(test2,2);
+    }
+
+    @Test
+    public void testRemoveDuplicates(){
+        ArrayAlgorithm arrayAlgorithm = new ArrayAlgorithm();
+        int test1[] = new int[]{1,1,1,2,2,3};
+        arrayAlgorithm.removeDuplicates(test1);
+    }
+
+    @Test
+    public void testRemoveDuplicates2(){
+        ArrayAlgorithm arrayAlgorithm = new ArrayAlgorithm();
+        int test1[] = new int[]{1,1,1,2,2,3};
+        int result1 = arrayAlgorithm.removeDuplicates2(test1);
+        System.out.println("result1:"+result1);
+        int test2[] = new int[]{0,0,1,1,1,1,2,3,3};
+        result1 = arrayAlgorithm.removeDuplicates2(test2);
+        System.out.println("result2:"+result1);
+
+        int test3[] = new int[]{0};
+        result1 = arrayAlgorithm.removeDuplicates2(test3);
+        System.out.println("result3:"+result1);
+
+        int test4[] = new int[]{1,1};
+        result1 = arrayAlgorithm.removeDuplicates2(test4);
+        System.out.println("result4:"+result1);
+
+        int test5[] = new int[]{1,1,2};
+        result1 = arrayAlgorithm.removeDuplicates2(test5);
+        System.out.println("result5:"+result1);
+    }
+
+    @Test
+    public void testCanJump(){
+        ArrayAlgorithm arrayAlgorithm = new ArrayAlgorithm();
+//        int test1[] = new int[]{2,3,1,1,4};
+//        System.out.println(arrayAlgorithm.canJump(test1));
+//        int test2[] = new int[]{3,2,1,0,4};
+//        System.out.println(arrayAlgorithm.canJump(test2));
+//        int test3[] = new int[]{0};
+//        System.out.println(arrayAlgorithm.canJump(test3));
+//        int test4[] = new int[]{1,1,1,0};
+//        System.out.println(arrayAlgorithm.canJump(test4));
+//        int test5[] = new int[]{1,1,2,2,0,1,1};
+//        System.out.println(arrayAlgorithm.canJump(test5));
+
+        int test6[] = new int[]{3,0,0,0};
+        System.out.println(arrayAlgorithm.canJump(test6));
     }
 }
